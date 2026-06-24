@@ -29,7 +29,7 @@ import {
   AlertCircle
 } from 'lucide-react';
 import FloatingElement from '@/components/FloatingElement';
-import extruderBanner from '@/assets/extruder-banner.jpg';
+
 
 interface GalleryItem {
   id: number;
@@ -438,16 +438,20 @@ export default function Home() {
 
       {/* Hero Section */}
       <section id="home" className="relative min-h-screen pt-40 pb-20 border-b border-border-color overflow-hidden flex flex-col justify-center">
-        <Image
-          src={extruderBanner}
-          alt="Factory machinery floor background"
-          fill
-          priority
-          placeholder="blur"
-          className="object-cover -z-10"
-        />
-        {/* Dynamic theme gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-bg-primary/96 via-bg-primary/78 to-bg-primary/20 max-md:bg-gradient-to-b max-md:from-bg-primary/95 max-md:via-bg-primary/80 max-md:to-bg-primary/45 -z-10" />
+        {/* Hero Banner Background */}
+        <div className="absolute inset-0 -z-20">
+          <Image
+            src="/assets/hero-banner.png"
+            alt="Redoy Group industrial manufacturing facility"
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-center"
+            quality={90}
+          />
+        </div>
+        {/* Professional gradient overlay for text readability */}
+        <div className="absolute inset-0 -z-10 max-md:bg-gradient-to-b max-md:from-[rgba(255,255,255,0.95)] max-md:via-[rgba(255,255,255,0.8)] max-md:to-[rgba(255,255,255,0.4)] dark:max-md:from-[rgba(15,23,42,0.95)] dark:max-md:via-[rgba(15,23,42,0.8)] dark:max-md:to-[rgba(15,23,42,0.4)]" style={{ backgroundImage: 'var(--hero-gradient)' }} />
 
         <div className="max-w-[1200px] w-full mx-auto px-6 md:px-10 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
