@@ -453,20 +453,38 @@ export default function App() {
             </div>
           </div>
 
-          {/* Stats Counter Grid */}
-          <div className="grid-3 corporate-card" style={{ marginTop: '80px', padding: '0', display: 'grid' }}>
-            <div className="stat-box">
+          {/* Stats Counter Grid Deck */}
+          <div className="grid-3 stats-deck-container" style={{ marginTop: '80px', display: 'grid' }}>
+            <div className="corporate-card stat-card" id="stat-card-garments">
+              <div className="stat-icon-wrapper" style={{ color: 'var(--primary)', background: 'var(--primary-light)' }}>
+                <ShoppingBag size={24} />
+              </div>
               <div className="stat-num">80,000+</div>
               <div className="stat-label">Daily Garment Output</div>
             </div>
-            <div className="stat-box">
+            <div className="corporate-card stat-card" id="stat-card-polythene">
+              <div className="stat-icon-wrapper" style={{ color: 'var(--secondary)', background: 'var(--secondary-light)' }}>
+                <Activity size={24} />
+              </div>
               <div className="stat-num">35+ Tons</div>
               <div className="stat-label">Daily Polythene Capacity</div>
             </div>
-            <div className="stat-box">
+            <div className="corporate-card stat-card" id="stat-card-cartons">
+              <div className="stat-icon-wrapper" style={{ color: 'var(--accent)', background: 'var(--accent-light)' }}>
+                <Box size={24} />
+              </div>
               <div className="stat-num">50,000+</div>
               <div className="stat-label">Daily Carton Packaging Units</div>
             </div>
+          </div>
+
+          {/* Animated Scroll Down Indicator */}
+          <div className="scroll-down-indicator-wrapper" style={{ display: 'flex', justifyContent: 'center', marginTop: '60px' }}>
+            <a href="#garments" aria-label="Scroll down to B2B verticals" className="scroll-down-btn">
+              <div className="mouse-wheel-container">
+                <span className="mouse-wheel-dot"></span>
+              </div>
+            </a>
           </div>
         </div>
       </section>
@@ -742,31 +760,47 @@ export default function App() {
               
               <div className="timeline-container">
                 <div className="timeline-item">
-                  <div className="timeline-dot"></div>
-                  <div className="timeline-year">1998</div>
-                  <div className="timeline-title">Apparel Factory Launch</div>
-                  <p style={{ fontSize: '0.88rem', color: 'var(--text-muted)' }}>Established our garments wing in Fatullah, Narayanganj with 100 sewing lines.</p>
+                  <div className="timeline-dot" style={{ borderColor: 'var(--primary)' }}></div>
+                  <div className="corporate-card timeline-card" style={{ borderLeft: '3px solid var(--primary)' }}>
+                    <div className="timeline-year">1998</div>
+                    <div className="timeline-title">Apparel Factory Launch</div>
+                    <p style={{ fontSize: '0.88rem', color: 'var(--text-muted)', lineHeight: 1.5 }}>
+                      Established our garments wing in Fatullah, Narayanganj with 100 sewing lines.
+                    </p>
+                  </div>
                 </div>
                 
                 <div className="timeline-item">
-                  <div className="timeline-dot"></div>
-                  <div className="timeline-year">2009</div>
-                  <div className="timeline-title">Packaging Expansion</div>
-                  <p style={{ fontSize: '0.88rem', color: 'var(--text-muted)' }}>Inaugurated LDPE polythene extrusion facilities supplying regional logistics hubs.</p>
+                  <div className="timeline-dot" style={{ borderColor: 'var(--secondary)' }}></div>
+                  <div className="corporate-card timeline-card" style={{ borderLeft: '3px solid var(--secondary)' }}>
+                    <div className="timeline-year">2009</div>
+                    <div className="timeline-title">Packaging Expansion</div>
+                    <p style={{ fontSize: '0.88rem', color: 'var(--text-muted)', lineHeight: 1.5 }}>
+                      Inaugurated LDPE polythene extrusion facilities supplying regional logistics hubs.
+                    </p>
+                  </div>
                 </div>
 
                 <div className="timeline-item">
-                  <div className="timeline-dot"></div>
-                  <div className="timeline-year">2018</div>
-                  <div className="timeline-title">Carton Plant Automation</div>
-                  <p style={{ fontSize: '0.88rem', color: 'var(--text-muted)' }}>Installed automatic high-speed corrugated paperboard corrugators and flexo printer slotters.</p>
+                  <div className="timeline-dot" style={{ borderColor: 'var(--accent)' }}></div>
+                  <div className="corporate-card timeline-card" style={{ borderLeft: '3px solid var(--accent)' }}>
+                    <div className="timeline-year">2018</div>
+                    <div className="timeline-title">Carton Plant Automation</div>
+                    <p style={{ fontSize: '0.88rem', color: 'var(--text-muted)', lineHeight: 1.5 }}>
+                      Installed automatic high-speed corrugated paperboard corrugators and flexo printer slotters.
+                    </p>
+                  </div>
                 </div>
 
                 <div className="timeline-item">
-                  <div className="timeline-dot"></div>
-                  <div className="timeline-year">2026</div>
-                  <div className="timeline-title">Eco-Packaging & B2B Portals</div>
-                  <p style={{ fontSize: '0.88rem', color: 'var(--text-muted)' }}>Transitioning to bio-degradable polymer blends and digital RFQ systems for worldwide partners.</p>
+                  <div className="timeline-dot" style={{ borderColor: 'var(--primary)' }}></div>
+                  <div className="corporate-card timeline-card" style={{ borderLeft: '3px solid var(--primary)' }}>
+                    <div className="timeline-year">2026</div>
+                    <div className="timeline-title">Eco-Packaging & B2B Portals</div>
+                    <p style={{ fontSize: '0.88rem', color: 'var(--text-muted)', lineHeight: 1.5 }}>
+                      Transitioning to bio-degradable polymer blends and digital RFQ systems for worldwide partners.
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
