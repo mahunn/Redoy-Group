@@ -60,7 +60,7 @@ const GALLERY_ITEMS = [
     id: 5,
     title: "Extruder Film Blown Plant",
     category: "polythene",
-    src: "/assets/Screenshot 2026-06-24 222539.png",
+    src: "/assets/polythene-factory.png",
     description: "Multi-layer co-extrusion blown film tower generating uniform thickness industrial plastic rolls."
   },
   {
@@ -95,22 +95,22 @@ const GALLERY_ITEMS = [
     id: 10,
     title: "Custom Corrugated Shipping Box",
     category: "cartons",
-    src: "/assets/Screenshot 2026-06-24 222313.png",
+    src: "/assets/isolated/cardboardbox.png",
     description: "Finished high-strength export carton boxes, ready for clothing and industrial freight logistics."
   },
   {
     id: 11,
     title: "Flexo Folder Gluer Slotter",
     category: "cartons",
-    src: "/assets/Screenshot 2026-06-24 222358.png",
+    src: "/assets/cardboard-factory.png",
     description: "High-speed flexographic printer scoring, slotting, and gluing paper sheets into boxes."
   },
   {
     id: 12,
-    title: "Die-Cutting Assembly Floor",
-    category: "cartons",
-    src: "/assets/Screenshot 2026-06-24 222407.png",
-    description: "Automated die-cut machinery crafting custom tuck-top boxes and corrugated inserts."
+    title: "Co-extruded Film Packaging Rolls",
+    category: "polythene",
+    src: "/assets/polythene-packaging/c275686f-fd96-4977-b272-9444cfbd6490.jpg",
+    description: "High-clarity polymer film rolls wound on heavy cores, ready for industrial automatic wrapping machines."
   }
 ];
 
@@ -423,33 +423,51 @@ export default function App() {
       </div>
 
       {/* Hero Section */}
-      <section id="home" className="section bg-light-sec" style={{ paddingTop: '160px', minHeight: 'auto', paddingBottom: '80px' }}>
+      <section id="home" className="section hero-banner-section">
         <div className="container">
           <div className="grid-2">
             <div>
               <span className="badge">Narayanganj, Bangladesh</span>
-              <h1 className="title-lg text-gradient" style={{ color: 'var(--text-heading)', fontWeight: 800, background: 'none', WebkitTextFillColor: 'initial' }}>
+              <h1 className="title-lg text-gradient" style={{ color: 'var(--hero-text)', fontWeight: 800, background: 'none', WebkitTextFillColor: 'initial', textShadow: '0 2px 10px rgba(15,23,42,0.05)' }}>
                 Industrial Manufacturing Powerhouse
               </h1>
-              <p style={{ fontSize: '1.15rem', marginBottom: '32px', color: 'var(--text-muted)' }}>
+              <p style={{ fontSize: '1.15rem', marginBottom: '32px', color: 'var(--hero-muted)' }}>
                 Partnering with global retail and logistics brands. Redoy Group delivers high-capacity manufacturing excellence in ready-made garments, extruded industrial polythene, and corrugated carton box packaging.
               </p>
               <div style={{ display: 'flex', gap: '16px' }}>
                 <a href="#garments" className="btn btn-primary">Explore Verticals <ChevronRight size={16} /></a>
-                <a href="#rfq" className="btn btn-outline">Send B2B RFQ</a>
+                <a href="#rfq" className="btn btn-outline" style={{ color: 'var(--hero-text)', borderColor: 'rgba(148, 163, 184, 0.4)' }}>Send B2B RFQ</a>
               </div>
             </div>
             
-            <div style={{ position: 'relative', height: '400px', borderRadius: '12px', overflow: 'hidden', border: '1px solid var(--border-color)', boxShadow: '0 20px 40px rgba(0,0,0,0.06)' }}>
-              <img 
-                src="/assets/Screenshot 2026-06-24 222138.png" 
-                alt="Redoy Group Factory Overview" 
-                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-              />
-              <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '24px', background: 'linear-gradient(to top, rgba(15,23,42,0.95), transparent)', color: 'white' }}>
-                <h4 style={{ color: 'white', marginBottom: '4px', fontSize: '1.2rem' }}>State-Of-The-Art Factory floor</h4>
-                <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.85rem' }}>Advanced automated machinery ensuring quality & speed.</p>
-              </div>
+            <div className="hero-highlights-card">
+              <h3 style={{ fontSize: '1.25rem', marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--hero-text)' }}>
+                <Shield size={20} style={{ color: 'var(--primary)' }} />
+                B2B Partner Standards
+              </h3>
+              <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                <li style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
+                  <CheckCircle size={18} style={{ color: 'var(--secondary)', marginTop: '2px', flexShrink: 0 }} />
+                  <div>
+                    <strong style={{ display: 'block', fontSize: '0.95rem', color: 'var(--hero-text)' }}>100% Export Oriented</strong>
+                    <span style={{ fontSize: '0.85rem', color: 'var(--hero-muted)' }}>Supplying garments and packaging to global retail and logistics brands.</span>
+                  </div>
+                </li>
+                <li style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
+                  <CheckCircle size={18} style={{ color: 'var(--secondary)', marginTop: '2px', flexShrink: 0 }} />
+                  <div>
+                    <strong style={{ display: 'block', fontSize: '0.95rem', color: 'var(--hero-text)' }}>Audited Compliance</strong>
+                    <span style={{ fontSize: '0.85rem', color: 'var(--hero-muted)' }}>Regularly audited facilities following BSCI, ACCORD, and OEKO-TEX safety systems.</span>
+                  </div>
+                </li>
+                <li style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
+                  <CheckCircle size={18} style={{ color: 'var(--secondary)', marginTop: '2px', flexShrink: 0 }} />
+                  <div>
+                    <strong style={{ display: 'block', fontSize: '0.95rem', color: 'var(--hero-text)' }}>High-Volume Output</strong>
+                    <span style={{ fontSize: '0.85rem', color: 'var(--hero-muted)' }}>Equipped with automated sewing lines and high-capacity blown film towers.</span>
+                  </div>
+                </li>
+              </ul>
             </div>
           </div>
 
@@ -585,23 +603,26 @@ export default function App() {
 
           <div className="grid-2">
             <div style={{ display: 'grid', gap: '20px' }}>
-              <div style={{ height: '300px', borderRadius: '8px', overflow: 'hidden', border: '1px solid var(--border-color)' }}>
+              <div style={{ height: '300px', borderRadius: '8px', overflow: 'hidden', border: '1px solid var(--border-color)', boxShadow: '0 8px 16px rgba(0,0,0,0.03)' }}>
                 <img 
-                  src="/assets/Screenshot 2026-06-24 222539.png" 
-                  alt="Polythene Extruder Machine" 
+                  src="/assets/polythene-factory.png" 
+                  alt="Polythene Extruder Machine Floor" 
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />
               </div>
-              <div style={{ display: 'flex', gap: '16px', justifyContent: 'center' }}>
+              <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
                 {/* Loop of small pictures for polythene */}
-                <div style={{ width: '100px', height: '100px', borderRadius: '6px', overflow: 'hidden', border: '1px solid var(--border-color)' }}>
-                  <img src="/assets/polythene-packaging/49807084-d662-4e2e-b4e8-ea63f9b2484c.jpg" alt="Poly bag 1" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                </div>
-                <div style={{ width: '100px', height: '100px', borderRadius: '6px', overflow: 'hidden', border: '1px solid var(--border-color)' }}>
-                  <img src="/assets/polythene-packaging/673d26ed-dc4a-4635-b5cb-18cd4dd468f6.jpg" alt="Poly bag 2" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                </div>
-                <div style={{ width: '100px', height: '100px', borderRadius: '6px', overflow: 'hidden', border: '1px solid var(--border-color)' }}>
+                <div style={{ width: '90px', height: '90px', borderRadius: '6px', overflow: 'hidden', border: '1px solid var(--border-color)', boxShadow: '0 4px 8px rgba(0,0,0,0.02)' }}>
                   <img src="/assets/polythene-packaging/ea032d1b-69ef-46b8-acc0-4f4ed3fe6ebc.jpg" alt="Poly rolls" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                </div>
+                <div style={{ width: '90px', height: '90px', borderRadius: '6px', overflow: 'hidden', border: '1px solid var(--border-color)', boxShadow: '0 4px 8px rgba(0,0,0,0.02)' }}>
+                  <img src="/assets/polythene-packaging/49807084-d662-4e2e-b4e8-ea63f9b2484c.jpg" alt="Printed polybags" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                </div>
+                <div style={{ width: '90px', height: '90px', borderRadius: '6px', overflow: 'hidden', border: '1px solid var(--border-color)', boxShadow: '0 4px 8px rgba(0,0,0,0.02)' }}>
+                  <img src="/assets/polythene-packaging/673d26ed-dc4a-4635-b5cb-18cd4dd468f6.jpg" alt="LDPE eco sheet" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                </div>
+                <div style={{ width: '90px', height: '90px', borderRadius: '6px', overflow: 'hidden', border: '1px solid var(--border-color)', boxShadow: '0 4px 8px rgba(0,0,0,0.02)' }}>
+                  <img src="/assets/polythene-packaging/c275686f-fd96-4977-b272-9444cfbd6490.jpg" alt="Poly rolls 2" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 </div>
               </div>
             </div>
@@ -701,19 +722,19 @@ export default function App() {
             </div>
 
             <div style={{ display: 'grid', gap: '20px' }}>
-              <div style={{ height: '300px', borderRadius: '8px', overflow: 'hidden', border: '1px solid var(--border-color)', position: 'relative' }}>
+              <div style={{ height: '300px', borderRadius: '8px', overflow: 'hidden', border: '1px solid var(--border-color)', position: 'relative', boxShadow: '0 8px 16px rgba(0,0,0,0.03)' }}>
                 <img 
-                  src="/assets/cardboard-packaging/02c33d02-b80b-4521-b4ec-302729b5aaf6.jpg" 
-                  alt="Automatic Carton Board machine" 
+                  src="/assets/cardboard-factory.png" 
+                  alt="Automatic Carton Board machine floor" 
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />
               </div>
               <div style={{ display: 'flex', gap: '16px', justifyContent: 'center' }}>
-                <div style={{ width: '100px', height: '100px', borderRadius: '6px', overflow: 'hidden', border: '1px solid var(--border-color)' }}>
-                  <img src="/assets/Screenshot 2026-06-24 222313.png" alt="Carton Box stacks" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                <div style={{ width: '120px', height: '120px', borderRadius: '6px', overflow: 'hidden', border: '1px solid var(--border-color)', boxShadow: '0 4px 8px rgba(0,0,0,0.02)' }}>
+                  <img src="/assets/cardboard-packaging/02c33d02-b80b-4521-b4ec-302729b5aaf6.jpg" alt="Carton Corrugator Line" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 </div>
-                <div style={{ width: '100px', height: '100px', borderRadius: '6px', overflow: 'hidden', border: '1px solid var(--border-color)' }}>
-                  <img src="/assets/Screenshot 2026-06-24 222407.png" alt="Carton machine floor" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                <div style={{ width: '120px', height: '120px', borderRadius: '6px', overflow: 'hidden', border: '1px solid var(--border-color)', boxShadow: '0 4px 8px rgba(0,0,0,0.02)' }}>
+                  <img src="/assets/isolated/cardboardbox.png" alt="Finished Carton Box" style={{ width: '100%', height: '100%', objectFit: 'cover', padding: '8px', background: 'var(--bg-secondary)' }} />
                 </div>
               </div>
             </div>
