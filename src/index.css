@@ -426,20 +426,25 @@ body.dark-theme .header.scrolled {
 
 .hero-banner-section {
   position: relative;
-  background-image: var(--hero-gradient), url('/assets/extruder-banner.jpg');
+  background: linear-gradient(to right, rgba(255, 255, 255, 0.94) 20%, rgba(255, 255, 255, 0.75) 55%, rgba(255, 255, 255, 0.15) 100%), url('/assets/extruder-banner.jpg') no-repeat center center;
   background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  transition: background-image 0.4s var(--ease-out-expo), border-color 0.3s ease;
+  transition: border-color 0.3s ease;
+}
+
+body.dark-theme .hero-banner-section {
+  background: linear-gradient(to right, rgba(15, 23, 42, 0.94) 20%, rgba(15, 23, 42, 0.75) 55%, rgba(15, 23, 42, 0.15) 100%), url('/assets/extruder-banner.jpg') no-repeat center center;
+  background-size: cover;
 }
 
 @media (max-width: 900px) {
   .hero-banner-section {
-    background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.95) 45%, rgba(255, 255, 255, 0.8) 75%, rgba(255, 255, 255, 0.4) 100%), url('/assets/extruder-banner.jpg') !important;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.95) 45%, rgba(255, 255, 255, 0.8) 75%, rgba(255, 255, 255, 0.4) 100%), url('/assets/extruder-banner.jpg') no-repeat center center !important;
+    background-size: cover !important;
   }
   
   body.dark-theme .hero-banner-section {
-    background-image: linear-gradient(to bottom, rgba(15, 23, 42, 0.95) 45%, rgba(15, 23, 42, 0.8) 75%, rgba(15, 23, 42, 0.45) 100%), url('/assets/extruder-banner.jpg') !important;
+    background: linear-gradient(to bottom, rgba(15, 23, 42, 0.95) 45%, rgba(15, 23, 42, 0.8) 75%, rgba(15, 23, 42, 0.45) 100%), url('/assets/extruder-banner.jpg') no-repeat center center !important;
+    background-size: cover !important;
   }
 }
 
