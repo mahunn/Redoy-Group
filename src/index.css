@@ -37,6 +37,26 @@
   --transition-fast: all 0.2s ease;
 }
 
+body.dark-theme {
+  --bg-primary: #0f172a;      /* Deep slate/navy background */
+  --bg-secondary: #1e293b;    /* Slate card background */
+  --bg-tertiary: #0b0f19;     /* Deep dark panel */
+  --bg-dark-accent: #020617;  /* High-contrast footer background */
+  
+  --primary-light: #075985;   /* Darker blue tint */
+  --secondary-light: #065f46; /* Darker emerald green tint */
+  --accent-light: #7c2d12;    /* Darker cardboard amber tint */
+
+  --text-main: #cbd5e1;       /* Light grey main text */
+  --text-heading: #f8fafc;    /* Bright white headings */
+  --text-muted: #94a3b8;
+  --text-light: #64748b;
+  
+  --border-color: #334155;    /* Dark border lines */
+  --border-light: rgba(255, 255, 255, 0.06);
+  --border-glow: rgba(16, 126, 182, 0.4);
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -51,6 +71,25 @@ html, body {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Global Transitions for theme toggling */
+.header, 
+.corporate-card, 
+.form-input, 
+.stat-box, 
+.footer, 
+.nav-link, 
+.mobile-drawer, 
+.capacity-table td, 
+.capacity-table tr, 
+.timeline-dot,
+.rfq-moq-banner,
+.mobile-nav-link,
+h1, h2, h3, h4, h5, h6,
+p {
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 /* Custom Scrollbar */
@@ -749,5 +788,201 @@ p {
 @keyframes spin-anim {
   to {
     transform: rotate(360deg);
+  }
+}
+
+/* --- Factory Tour & Product Showcase Gallery --- */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+  margin-top: 20px;
+}
+
+.gallery-card {
+  transition: transform 0.4s var(--ease-out-expo), box-shadow 0.4s var(--ease-out-expo), border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.gallery-card:hover {
+  transform: translateY(-6px) scale(1.01);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+}
+
+.gallery-card:hover .gallery-thumb-img {
+  transform: scale(1.08);
+}
+
+.gallery-card:hover .gallery-overlay {
+  opacity: 1 !important;
+}
+
+.gallery-img-container .gallery-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(15, 23, 42, 0.4);
+  backdrop-filter: blur(2px);
+  opacity: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  transition: opacity 0.3s ease;
+}
+
+/* Fullscreen Lightbox Overlay */
+.lightbox-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(9, 15, 25, 0.96);
+  backdrop-filter: blur(12px);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 24px;
+  animation: fade-in 0.3s var(--ease-out-expo);
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  z-index: 210;
+}
+
+.lightbox-close:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: scale(1.05);
+}
+
+.lightbox-content-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1200px;
+  height: 65vh;
+  position: relative;
+}
+
+.lightbox-nav-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 210;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.lightbox-nav-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: scale(1.05);
+}
+
+.lightbox-img-holder {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 0 32px;
+}
+
+.lightbox-main-img {
+  max-height: 100%;
+  max-width: 100%;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.lightbox-desc-card {
+  width: 100%;
+  max-width: 720px;
+  text-align: center;
+  margin-top: 28px;
+  color: white;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(8px);
+  z-index: 210;
+}
+
+/* --- B2B RFQ Grid Layout & Production Estimator --- */
+.rfq-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 32px;
+  align-items: start;
+  margin-top: 20px;
+}
+
+.production-estimator-card {
+  transition: border-color 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+}
+
+.estimator-empty-state {
+  border: 2px dashed var(--border-color);
+  background: rgba(0, 0, 0, 0.01);
+  transition: border-color 0.3s ease;
+}
+
+body.dark-theme .estimator-empty-state {
+  background: rgba(255, 255, 255, 0.01);
+}
+
+body.dark-theme .lightbox-desc-card {
+  background: rgba(15, 23, 42, 0.6);
+}
+
+body.dark-theme .theme-toggle-btn {
+  border-color: var(--border-color) !important;
+}
+
+body.dark-theme .theme-toggle-btn:hover {
+  background: rgba(255, 255, 255, 0.05) !important;
+  color: var(--primary) !important;
+}
+
+@media (max-width: 900px) {
+  .rfq-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  
+  .production-estimator-card {
+    position: static !important;
   }
 }

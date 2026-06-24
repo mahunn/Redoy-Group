@@ -15,9 +15,104 @@ import {
   Activity, 
   Clock,
   Menu,
-  X
+  X,
+  Sun,
+  Moon,
+  Eye,
+  ChevronLeft,
+  Download,
+  Truck,
+  Anchor,
+  AlertCircle
 } from 'lucide-react';
 import FloatingElement from './components/FloatingElement';
+
+const GALLERY_ITEMS = [
+  {
+    id: 1,
+    title: "Knitting Floor Operations",
+    category: "garments",
+    src: "/assets/Screenshot 2026-06-24 222138.png",
+    description: "Multi-line circular knitting machinery producing premium knit fabrics in Fatullah, Narayanganj."
+  },
+  {
+    id: 2,
+    title: "Apparel Stitching & Assembly",
+    category: "garments",
+    src: "/assets/Screenshot 2026-06-24 222518.png",
+    description: "Automated sewing lines equipped with Juki and Pegasus machinery for high-output casual wear."
+  },
+  {
+    id: 3,
+    title: "Garment Ironing & Finishing",
+    category: "garments",
+    src: "/assets/Screenshot 2026-06-24 222329.png",
+    description: "Vacuum ironing tables and steam press units ensuring crisp, retail-ready garments."
+  },
+  {
+    id: 4,
+    title: "Apparel Quality Assurance",
+    category: "garments",
+    src: "/assets/Screenshot 2026-06-24 222215.png",
+    description: "In-line and end-of-line quality control checkpoints verifying dimensions and stitching integrity."
+  },
+  {
+    id: 5,
+    title: "Extruder Film Blown Plant",
+    category: "polythene",
+    src: "/assets/Screenshot 2026-06-24 222539.png",
+    description: "Multi-layer co-extrusion blown film tower generating uniform thickness industrial plastic rolls."
+  },
+  {
+    id: 6,
+    title: "Finished Poly Stretch Film",
+    category: "polythene",
+    src: "/assets/polythene-packaging/ea032d1b-69ef-46b8-acc0-4f4ed3fe6ebc.jpg",
+    description: "Heavy-duty LLDPE packaging rolls stacked and prepared for logistics wrapping shipments."
+  },
+  {
+    id: 7,
+    title: "Custom Printed Factory Polybags",
+    category: "polythene",
+    src: "/assets/polythene-packaging/49807084-d662-4e2e-b4e8-ea63f9b2484c.jpg",
+    description: "Warning message printed garment polybags tailored for international retail packaging compliance."
+  },
+  {
+    id: 8,
+    title: "LDPE Recycled Eco Polymer",
+    category: "polythene",
+    src: "/assets/polythene-packaging/673d26ed-dc4a-4635-b5cb-18cd4dd468f6.jpg",
+    description: "Green-infused recyclable polythene sheets offering standard puncture resistance."
+  },
+  {
+    id: 9,
+    title: "Carton Flute Corrugator Line",
+    category: "cartons",
+    src: "/assets/cardboard-packaging/02c33d02-b80b-4521-b4ec-302729b5aaf6.jpg",
+    description: "Heavy corrugating machine laminating linerboards into 3-Ply, 5-Ply, and 7-Ply corrugated boards."
+  },
+  {
+    id: 10,
+    title: "Custom Corrugated Shipping Box",
+    category: "cartons",
+    src: "/assets/Screenshot 2026-06-24 222313.png",
+    description: "Finished high-strength export carton boxes, ready for clothing and industrial freight logistics."
+  },
+  {
+    id: 11,
+    title: "Flexo Folder Gluer Slotter",
+    category: "cartons",
+    src: "/assets/Screenshot 2026-06-24 222358.png",
+    description: "High-speed flexographic printer scoring, slotting, and gluing paper sheets into boxes."
+  },
+  {
+    id: 12,
+    title: "Die-Cutting Assembly Floor",
+    category: "cartons",
+    src: "/assets/Screenshot 2026-06-24 222407.png",
+    description: "Automated die-cut machinery crafting custom tuck-top boxes and corrugated inserts."
+  }
+];
 
 export default function App() {
   const [scrolled, setScrolled] = useState(false);
@@ -34,6 +129,56 @@ export default function App() {
     specs: ''
   });
 
+  // Theme state
+  const [theme, setTheme] = useState(() => {
+    return localStorage.getItem('theme') || 'light';
+  });
+
+  // Gallery states
+  const [galleryFilter, setGalleryFilter] = useState('all');
+  const [lightboxIndex, setLightboxIndex] = useState(null);
+
+  // Theme effect
+  useEffect(() => {
+    if (theme === 'dark') {
+      document.body.classList.add('dark-theme');
+    } else {
+      document.body.classList.remove('dark-theme');
+    }
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  // Gallery methods
+  const openLightbox = (index) => {
+    setLightboxIndex(index);
+  };
+
+  const closeLightbox = () => {
+    setLightboxIndex(null);
+  };
+
+  const slideNext = (e) => {
+    if (e) e.stopPropagation();
+    setLightboxIndex((prev) => (prev === GALLERY_ITEMS.length - 1 ? 0 : prev + 1));
+  };
+
+  const slidePrev = (e) => {
+    if (e) e.stopPropagation();
+    setLightboxIndex((prev) => (prev === 0 ? GALLERY_ITEMS.length - 1 : prev - 1));
+  };
+
+  // Lightbox keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (lightboxIndex === null) return;
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowRight') slideNext();
+      if (e.key === 'ArrowLeft') slidePrev();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [lightboxIndex]);
+
   // Mobile Menu Body Scroll Lock
   useEffect(() => {
     if (mobileMenuOpen) {
@@ -45,6 +190,73 @@ export default function App() {
       document.body.style.overflow = '';
     };
   }, [mobileMenuOpen]);
+
+  const getParsedQuantity = () => {
+    // Extract numbers from quantity string (e.g. "20,000 Pcs" -> 20000)
+    const matches = formData.quantity.match(/[\d,]+/);
+    if (!matches) return 0;
+    return parseInt(matches[0].replace(/,/g, ''), 10) || 0;
+  };
+
+  const calculateLeadTime = () => {
+    const quantity = getParsedQuantity();
+    if (quantity <= 0) return null;
+
+    let dailyOutput = 80000;
+    let setupDays = 3;
+    let unit = "pcs";
+
+    if (activeTab === 'garments') {
+      dailyOutput = 80000;
+      setupDays = 3;
+      unit = "Pcs";
+    } else if (activeTab === 'polythene') {
+      dailyOutput = 35; // Tons
+      setupDays = 2;
+      unit = "Metric Tons";
+    } else if (activeTab === 'box') {
+      dailyOutput = 50000;
+      setupDays = 2;
+      unit = "Units";
+    }
+
+    const rawProductionDays = Math.ceil(quantity / dailyOutput);
+    const totalDays = setupDays + rawProductionDays;
+    
+    // Raw material estimates
+    let rawMaterialLabel = "Fabric Weight";
+    let rawMaterialAmount = "";
+    if (activeTab === 'garments') {
+      // average 250g fabric per piece (Polo)
+      rawMaterialAmount = `${((quantity * 0.25) / 1000).toLocaleString(undefined, {maximumFractionDigits: 1})} Tons Combed Yarn`;
+    } else if (activeTab === 'polythene') {
+      rawMaterialLabel = "Polymer Resin Feed";
+      rawMaterialAmount = `${(quantity * 1.05).toLocaleString(undefined, {maximumFractionDigits: 1})} Tons raw LLDPE`;
+    } else if (activeTab === 'box') {
+      rawMaterialLabel = "Paperboard Fluting Feed";
+      // average 400g per unit carton
+      rawMaterialAmount = `${((quantity * 0.4) / 1000).toLocaleString(undefined, {maximumFractionDigits: 1})} Tons Kraft Paper`;
+    }
+
+    // Shipping date window
+    const baseDate = new Date();
+    // Add production days + transit to port (4 days)
+    baseDate.setDate(baseDate.getDate() + totalDays + 4);
+    const shippingDateString = baseDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+
+    return {
+      setupDays,
+      productionDays: rawProductionDays,
+      totalDays,
+      rawMaterialLabel,
+      rawMaterialAmount,
+      shippingDateString,
+      portStatus: "Chittagong Port FOB",
+      capacityPercent: Math.min(100, Math.round((quantity / (dailyOutput * 30)) * 100))
+    };
+  };
+
+  const estimation = calculateLeadTime();
 
   // Scroll Header Effect
   useEffect(() => {
@@ -136,10 +348,35 @@ export default function App() {
             <li><a href="#polythene" className="nav-link" id="nav-link-polythene">Polythene Packaging</a></li>
             <li><a href="#box" className="nav-link" id="nav-link-box">Box Packaging</a></li>
             <li><a href="#heritage" className="nav-link" id="nav-link-heritage">Compliance & Heritage</a></li>
+            <li><a href="#gallery" className="nav-link" id="nav-link-gallery">Factory Tour</a></li>
           </ul>
         </nav>
 
-        <a href="#rfq" className="nav-btn desktop-only" id="nav-btn-rfq">Request Quote</a>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+          <button
+            id="theme-toggle-btn"
+            className="theme-toggle-btn"
+            onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+            aria-label="Toggle theme color"
+            style={{
+              background: 'transparent',
+              border: '1px solid var(--border-color)',
+              borderRadius: '50%',
+              width: '38px',
+              height: '38px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+              color: 'var(--text-heading)',
+              transition: 'var(--transition-fast)'
+            }}
+          >
+            {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
+          </button>
+          
+          <a href="#rfq" className="nav-btn desktop-only" id="nav-btn-rfq">Request Quote</a>
+        </div>
 
         {/* Mobile menu toggle */}
         <button 
@@ -160,7 +397,23 @@ export default function App() {
             <li><a href="#polythene" className="mobile-nav-link" id="mobile-link-polythene" onClick={() => setMobileMenuOpen(false)}>Polythene Packaging</a></li>
             <li><a href="#box" className="mobile-nav-link" id="mobile-link-box" onClick={() => setMobileMenuOpen(false)}>Box Packaging</a></li>
             <li><a href="#heritage" className="mobile-nav-link" id="mobile-link-heritage" onClick={() => setMobileMenuOpen(false)}>Compliance & Heritage</a></li>
-            <li style={{ marginTop: '20px' }}>
+            <li><a href="#gallery" className="mobile-nav-link" id="mobile-link-gallery" onClick={() => setMobileMenuOpen(false)}>Factory Tour</a></li>
+            <li style={{ marginTop: '20px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              <button
+                id="mobile-theme-toggle-btn"
+                className="btn btn-outline"
+                onClick={() => {
+                  setTheme(theme === 'light' ? 'dark' : 'light');
+                  setMobileMenuOpen(false);
+                }}
+                style={{ width: '100%', justifyContent: 'center' }}
+              >
+                {theme === 'light' ? (
+                  <span style={{ display: 'flex', alignItems: 'center' }}><Moon size={16} style={{ marginRight: '8px' }} /> Dark Theme</span>
+                ) : (
+                  <span style={{ display: 'flex', alignItems: 'center' }}><Sun size={16} style={{ marginRight: '8px' }} /> Light Theme</span>
+                )}
+              </button>
               <a href="#rfq" className="btn btn-primary" id="mobile-btn-rfq" style={{ width: '100%', justifyContent: 'center' }} onClick={() => setMobileMenuOpen(false)}>
                 Request Quote
               </a>
@@ -521,201 +774,430 @@ export default function App() {
         </div>
       </section>
 
+      {/* Factory Tour Gallery Section */}
+      <section id="gallery" className="section bg-light-sec">
+        <div className="container">
+          <div className="section-header">
+            <span className="bordered-title">FACTORY TOUR</span>
+            <h2 className="section-title">Operations & Products Showcase</h2>
+          </div>
+
+          {/* Filter Categories */}
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '12px', marginBottom: '40px', flexWrap: 'wrap' }}>
+            {['all', 'garments', 'polythene', 'cartons'].map((cat) => (
+              <button
+                key={cat}
+                id={`gallery-filter-${cat}`}
+                onClick={() => setGalleryFilter(cat)}
+                className={`btn ${galleryFilter === cat ? 'btn-primary' : 'btn-outline'}`}
+                style={{
+                  textTransform: 'capitalize',
+                  padding: '8px 20px',
+                  fontSize: '0.9rem',
+                  background: galleryFilter === cat ? (cat === 'polythene' ? 'var(--secondary)' : cat === 'cartons' ? 'var(--accent)' : 'var(--primary)') : 'transparent',
+                  borderColor: galleryFilter === cat ? (cat === 'polythene' ? 'var(--secondary)' : cat === 'cartons' ? 'var(--accent)' : 'var(--primary)') : 'var(--border-color)',
+                  color: galleryFilter === cat ? 'white' : 'var(--text-main)'
+                }}
+              >
+                {cat === 'cartons' ? 'Carton Packaging' : cat === 'polythene' ? 'Polythene Packaging' : cat === 'all' ? 'All Operations' : 'Garments'}
+              </button>
+            ))}
+          </div>
+
+          {/* Gallery Grid */}
+          <div className="gallery-grid">
+            {GALLERY_ITEMS.filter(item => galleryFilter === 'all' || item.category === galleryFilter).map((item) => {
+              const globalIndex = GALLERY_ITEMS.findIndex(g => g.id === item.id);
+              return (
+                <div
+                  key={item.id}
+                  className="gallery-card corporate-card"
+                  style={{ padding: '0', overflow: 'hidden', cursor: 'pointer', position: 'relative' }}
+                  onClick={() => openLightbox(globalIndex)}
+                >
+                  <div className="gallery-img-container" style={{ height: '200px', overflow: 'hidden', position: 'relative' }}>
+                    <img
+                      src={item.src}
+                      alt={item.title}
+                      style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s ease' }}
+                      className="gallery-thumb-img"
+                    />
+                    <div className="gallery-overlay">
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 600 }}>
+                        <Eye size={18} /> View Operations
+                      </div>
+                    </div>
+                  </div>
+                  <div style={{ padding: '20px' }}>
+                    <span className="badge" style={{
+                      fontSize: '0.75rem',
+                      marginBottom: '8px',
+                      background: item.category === 'garments' ? 'var(--primary-light)' : item.category === 'polythene' ? 'var(--secondary-light)' : 'var(--accent-light)',
+                      color: item.category === 'garments' ? 'var(--primary-dark)' : item.category === 'polythene' ? 'var(--secondary)' : 'var(--accent)',
+                    }}>
+                      {item.category === 'garments' ? 'Garments' : item.category === 'polythene' ? 'Polythene' : 'Carton Box'}
+                    </span>
+                    <h4 style={{ fontSize: '1.05rem', margin: '4px 0 8px 0', color: 'var(--text-heading)' }}>{item.title}</h4>
+                    <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden', lineHeight: 1.5 }}>
+                      {item.description}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Fullscreen Lightbox */}
+        {lightboxIndex !== null && (
+          <div className="lightbox-overlay" onClick={closeLightbox}>
+            {/* Close Button */}
+            <button
+              onClick={closeLightbox}
+              className="lightbox-close"
+              aria-label="Close lightbox"
+            >
+              <X size={20} />
+            </button>
+
+            {/* Main Lightbox Content */}
+            <div className="lightbox-content-wrapper" onClick={(e) => e.stopPropagation()}>
+              {/* Prev Button */}
+              <button
+                onClick={(e) => slidePrev(e)}
+                className="lightbox-nav-btn"
+                aria-label="Previous image"
+              >
+                <ChevronLeft size={24} />
+              </button>
+
+              {/* Lightbox Image Container */}
+              <div className="lightbox-img-holder">
+                <img
+                  src={GALLERY_ITEMS[lightboxIndex].src}
+                  alt={GALLERY_ITEMS[lightboxIndex].title}
+                  className="lightbox-main-img"
+                />
+              </div>
+
+              {/* Next Button */}
+              <button
+                onClick={(e) => slideNext(e)}
+                className="lightbox-nav-btn"
+                aria-label="Next image"
+              >
+                <ChevronRight size={24} />
+              </button>
+            </div>
+
+            {/* Description Card */}
+            <div className="lightbox-desc-card" onClick={(e) => e.stopPropagation()}>
+              <h3 style={{ color: 'white', marginBottom: '8px', fontSize: '1.25rem' }}>
+                {GALLERY_ITEMS[lightboxIndex].title}
+              </h3>
+              <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.9rem', lineHeight: 1.6 }}>
+                {GALLERY_ITEMS[lightboxIndex].description}
+              </p>
+              <div style={{ marginTop: '12px', fontSize: '0.8rem', color: 'rgba(255,255,255,0.4)' }}>
+                Image {lightboxIndex + 1} of {GALLERY_ITEMS.length} • Category: <span style={{ textTransform: 'capitalize' }}>{GALLERY_ITEMS[lightboxIndex].category}</span>
+              </div>
+            </div>
+          </div>
+        )}
+      </section>
+
       {/* Interactive B2B RFQ inquiry Form */}
       <section id="rfq" className="section bg-white">
-        <div className="container" style={{ maxWidth: '800px' }}>
+        <div className="container" style={{ maxWidth: '1200px' }}>
           <div className="section-header">
             <span className="bordered-title">GET A CUSTOM QUOTE</span>
             <h2 className="section-title">Submit B2B RFQ Inquiry</h2>
           </div>
 
-          <div className="corporate-card" style={{ padding: '40px' }}>
-            <div className="rfq-tabs">
-              <button 
-                id="rfq-tab-garments"
-                className={`rfq-tab ${activeTab === 'garments' ? 'active' : ''}`}
-                onClick={() => setActiveTab('garments')}
-              >
-                Garments RFQ
-              </button>
-              <button 
-                id="rfq-tab-polythene"
-                className={`rfq-tab ${activeTab === 'polythene' ? 'active' : ''}`}
-                onClick={() => setActiveTab('polythene')}
-                style={{ activeColor: 'var(--secondary)' }}
-              >
-                Polythene RFQ
-              </button>
-              <button 
-                id="rfq-tab-box"
-                className={`rfq-tab ${activeTab === 'box' ? 'active' : ''}`}
-                onClick={() => setActiveTab('box')}
-              >
-                Carton Box RFQ
-              </button>
-            </div>
-
-            <div className="rfq-moq-banner" style={{
-              background: activeTab === 'garments' ? 'var(--primary-light)' : activeTab === 'polythene' ? 'var(--secondary-light)' : 'var(--accent-light)',
-              color: activeTab === 'garments' ? 'var(--primary-dark)' : activeTab === 'polythene' ? 'var(--secondary)' : 'var(--accent)',
-              padding: '12px 16px',
-              borderRadius: '6px',
-              marginBottom: '24px',
-              fontSize: '0.9rem',
-              fontWeight: 600,
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              transition: 'var(--transition-fast)'
-            }}>
-              <Clock size={16} />
-              <span>{getMoqInfo()}</span>
-            </div>
-
-            {rfqSubmitStatus === 'success' ? (
-              <div style={{ textAlign: 'center', padding: '40px 0' }} id="rfq-success-container">
-                <CheckCircle size={64} style={{ color: 'var(--secondary)', marginBottom: '16px' }} />
-                <h3 style={{ fontSize: '1.6rem', marginBottom: '8px' }}>RFQ Submitted Successfully</h3>
-                <p style={{ color: 'var(--text-muted)', marginBottom: '24px' }}>
-                  Thank you for your request. Our B2B sales desk at Narayanganj will review your requirements and reach out within 24 business hours.
-                </p>
-                <button id="rfq-reset-btn" className="btn btn-outline" onClick={() => setRfqSubmitStatus(null)}>
-                  Send Another Inquiry
+          <div className="rfq-grid">
+            {/* Form Column */}
+            <div className="corporate-card" style={{ padding: '32px' }} id="rfq-form-card">
+              <div className="rfq-tabs">
+                <button 
+                  id="rfq-tab-garments"
+                  className={`rfq-tab ${activeTab === 'garments' ? 'active' : ''}`}
+                  onClick={() => setActiveTab('garments')}
+                >
+                  Garments RFQ
+                </button>
+                <button 
+                  id="rfq-tab-polythene"
+                  className={`rfq-tab ${activeTab === 'polythene' ? 'active' : ''}`}
+                  onClick={() => setActiveTab('polythene')}
+                  style={{ activeColor: 'var(--secondary)' }}
+                >
+                  Polythene RFQ
+                </button>
+                <button 
+                  id="rfq-tab-box"
+                  className={`rfq-tab ${activeTab === 'box' ? 'active' : ''}`}
+                  onClick={() => setActiveTab('box')}
+                >
+                  Carton Box RFQ
                 </button>
               </div>
-            ) : (
-              <form onSubmit={handleSubmit} id="rfq-form">
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
-                  <div className="form-group">
-                    <label htmlFor="rfq-input-name">Full Name</label>
-                    <input 
-                      type="text" 
-                      id="rfq-input-name"
-                      name="name" 
-                      value={formData.name}
-                      onChange={handleInputChange}
-                      className={`form-input ${formErrors.name ? 'input-error' : ''}`} 
-                      placeholder="e.g. John Doe" 
-                      required 
-                    />
-                    {formErrors.name && <span className="error-message">{formErrors.name}</span>}
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="rfq-input-email">B2B Contact Email</label>
-                    <input 
-                      type="email" 
-                      id="rfq-input-email"
-                      name="email" 
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      className={`form-input ${formErrors.email ? 'input-error' : ''}`} 
-                      placeholder="corporate@brand.com" 
-                      required 
-                    />
-                    {formErrors.email && <span className="error-message">{formErrors.email}</span>}
-                  </div>
-                </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginTop: '16px' }}>
-                  <div className="form-group">
-                    <label htmlFor="rfq-input-company">Company Name</label>
-                    <input 
-                      type="text" 
-                      id="rfq-input-company"
-                      name="company" 
-                      value={formData.company}
-                      onChange={handleInputChange}
-                      className={`form-input ${formErrors.company ? 'input-error' : ''}`} 
-                      placeholder="e.g. Retail Brand Ltd" 
-                      required 
-                    />
-                    {formErrors.company && <span className="error-message">{formErrors.company}</span>}
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="rfq-input-quantity">Estimated Quantity Needed</label>
-                    <input 
-                      type="text" 
-                      id="rfq-input-quantity"
-                      name="quantity" 
-                      value={formData.quantity}
-                      onChange={handleInputChange}
-                      className={`form-input ${formErrors.quantity ? 'input-error' : ''}`} 
-                      placeholder={activeTab === 'polythene' ? 'e.g. 5 Metric Tons' : 'e.g. 20,000 Pcs'} 
-                      required 
-                    />
-                    {formErrors.quantity && <span className="error-message">{formErrors.quantity}</span>}
-                  </div>
-                </div>
+              <div className="rfq-moq-banner" style={{
+                background: activeTab === 'garments' ? 'var(--primary-light)' : activeTab === 'polythene' ? 'var(--secondary-light)' : 'var(--accent-light)',
+                color: activeTab === 'garments' ? 'var(--primary-dark)' : activeTab === 'polythene' ? 'var(--secondary)' : 'var(--accent)',
+                padding: '12px 16px',
+                borderRadius: '6px',
+                marginBottom: '24px',
+                fontSize: '0.9rem',
+                fontWeight: 600,
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                transition: 'var(--transition-fast)'
+              }}>
+                <Clock size={16} />
+                <span>{getMoqInfo()}</span>
+              </div>
 
-                <div className="form-group" style={{ marginTop: '16px' }}>
-                  <label htmlFor="rfq-input-productType">Product Type / Grade</label>
-                  <select 
-                    id="rfq-input-productType"
-                    name="productType" 
-                    value={formData.productType}
-                    onChange={handleInputChange}
-                    className="form-input"
-                  >
-                    {activeTab === 'garments' && (
-                      <>
-                        <option value="Polo Shirt">Polo Shirt (100% Combed Cotton)</option>
-                        <option value="Basic T-Shirt">Basic T-Shirt (Knit Fabric)</option>
-                        <option value="Hoodie">Premium Fleece Hoodie</option>
-                        <option value="Sportswear">Athletic Active Wear</option>
-                      </>
-                    )}
-                    {activeTab === 'polythene' && (
-                      <>
-                        <option value="LLDPE Packaging Rolls">LLDPE Stretch Wrapping Rolls</option>
-                        <option value="Printed Factory Bags">Custom Printed Factory Polybags</option>
-                        <option value="LDPE Shrink Film">Industrial LDPE Shrink Film</option>
-                      </>
-                    )}
-                    {activeTab === 'box' && (
-                      <>
-                        <option value="Double-Wall Carton Box">5-Ply Double-Wall Shipping Carton</option>
-                        <option value="Triple-Wall Box">7-Ply Triple-Wall Heavy Freight Box</option>
-                        <option value="Die-Cut Retail Box">3-Ply Die-Cut Retail Product Box</option>
-                      </>
-                    )}
-                  </select>
-                </div>
-
-                <div className="form-group" style={{ marginTop: '16px' }}>
-                  <label htmlFor="rfq-input-specs">Additional Specifications (Dimensions, printing colors, grammage, etc.)</label>
-                  <textarea 
-                    id="rfq-input-specs"
-                    name="specs" 
-                    value={formData.specs}
-                    onChange={handleInputChange}
-                    rows="4" 
-                    className="form-input" 
-                    placeholder="Enter custom dimensions, thickness in microns, ply strength or specific design requests..."
-                  ></textarea>
-                </div>
-
-                <div style={{ marginTop: '24px', textAlign: 'center' }}>
-                  <button 
-                    type="submit" 
-                    id="rfq-submit-btn"
-                    className="btn btn-primary" 
-                    disabled={rfqSubmitStatus === 'sending'}
-                    style={{ 
-                      width: '100%', 
-                      justifyContent: 'center', 
-                      background: activeTab === 'polythene' ? 'var(--secondary)' : activeTab === 'box' ? 'var(--accent)' : 'var(--primary)' 
-                    }}
-                  >
-                    {rfqSubmitStatus === 'sending' ? (
-                      <span className="spinner-container">
-                        <span className="spinner"></span>
-                        Processing Inquiry...
-                      </span>
-                    ) : 'Submit Request for Quotation'}
+              {rfqSubmitStatus === 'success' ? (
+                <div style={{ textAlign: 'center', padding: '40px 0' }} id="rfq-success-container">
+                  <CheckCircle size={64} style={{ color: 'var(--secondary)', marginBottom: '16px' }} />
+                  <h3 style={{ fontSize: '1.6rem', marginBottom: '8px' }}>RFQ Submitted Successfully</h3>
+                  <p style={{ color: 'var(--text-muted)', marginBottom: '24px' }}>
+                    Thank you for your request. Our B2B sales desk at Narayanganj will review your requirements and reach out within 24 business hours.
+                  </p>
+                  <button id="rfq-reset-btn" className="btn btn-outline" onClick={() => setRfqSubmitStatus(null)}>
+                    Send Another Inquiry
                   </button>
                 </div>
-              </form>
-            )}
+              ) : (
+                <form onSubmit={handleSubmit} id="rfq-form">
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+                    <div className="form-group">
+                      <label htmlFor="rfq-input-name">Full Name</label>
+                      <input 
+                        type="text" 
+                        id="rfq-input-name"
+                        name="name" 
+                        value={formData.name}
+                        onChange={handleInputChange}
+                        className={`form-input ${formErrors.name ? 'input-error' : ''}`} 
+                        placeholder="e.g. John Doe" 
+                        required 
+                      />
+                      {formErrors.name && <span className="error-message">{formErrors.name}</span>}
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="rfq-input-email">B2B Contact Email</label>
+                      <input 
+                        type="email" 
+                        id="rfq-input-email"
+                        name="email" 
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        className={`form-input ${formErrors.email ? 'input-error' : ''}`} 
+                        placeholder="corporate@brand.com" 
+                        required 
+                      />
+                      {formErrors.email && <span className="error-message">{formErrors.email}</span>}
+                    </div>
+                  </div>
+
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginTop: '16px' }}>
+                    <div className="form-group">
+                      <label htmlFor="rfq-input-company">Company Name</label>
+                      <input 
+                        type="text" 
+                        id="rfq-input-company"
+                        name="company" 
+                        value={formData.company}
+                        onChange={handleInputChange}
+                        className={`form-input ${formErrors.company ? 'input-error' : ''}`} 
+                        placeholder="e.g. Retail Brand Ltd" 
+                        required 
+                      />
+                      {formErrors.company && <span className="error-message">{formErrors.company}</span>}
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="rfq-input-quantity">Estimated Quantity Needed</label>
+                      <input 
+                        type="text" 
+                        id="rfq-input-quantity"
+                        name="quantity" 
+                        value={formData.quantity}
+                        onChange={handleInputChange}
+                        className={`form-input ${formErrors.quantity ? 'input-error' : ''}`} 
+                        placeholder={activeTab === 'polythene' ? 'e.g. 5' : 'e.g. 20,000'} 
+                        required 
+                      />
+                      {formErrors.quantity && <span className="error-message">{formErrors.quantity}</span>}
+                    </div>
+                  </div>
+
+                  <div className="form-group" style={{ marginTop: '16px' }}>
+                    <label htmlFor="rfq-input-productType">Product Type / Grade</label>
+                    <select 
+                      id="rfq-input-productType"
+                      name="productType" 
+                      value={formData.productType}
+                      onChange={handleInputChange}
+                      className="form-input"
+                    >
+                      {activeTab === 'garments' && (
+                        <>
+                          <option value="Polo Shirt">Polo Shirt (100% Combed Cotton)</option>
+                          <option value="Basic T-Shirt">Basic T-Shirt (Knit Fabric)</option>
+                          <option value="Hoodie">Premium Fleece Hoodie</option>
+                          <option value="Sportswear">Athletic Active Wear</option>
+                        </>
+                      )}
+                      {activeTab === 'polythene' && (
+                        <>
+                          <option value="LLDPE Packaging Rolls">LLDPE Stretch Wrapping Rolls</option>
+                          <option value="Printed Factory Bags">Custom Printed Factory Polybags</option>
+                          <option value="LDPE Shrink Film">Industrial LDPE Shrink Film</option>
+                        </>
+                      )}
+                      {activeTab === 'box' && (
+                        <>
+                          <option value="Double-Wall Carton Box">5-Ply Double-Wall Shipping Carton</option>
+                          <option value="Triple-Wall Box">7-Ply Triple-Wall Heavy Freight Box</option>
+                          <option value="Die-Cut Retail Box">3-Ply Die-Cut Retail Product Box</option>
+                        </>
+                      )}
+                    </select>
+                  </div>
+
+                  <div className="form-group" style={{ marginTop: '16px' }}>
+                    <label htmlFor="rfq-input-specs">Additional Specifications (Dimensions, printing colors, grammage, etc.)</label>
+                    <textarea 
+                      id="rfq-input-specs"
+                      name="specs" 
+                      value={formData.specs}
+                      onChange={handleInputChange}
+                      rows="4" 
+                      className="form-input" 
+                      placeholder="Enter custom dimensions, thickness in microns, ply strength or specific design requests..."
+                    ></textarea>
+                  </div>
+
+                  <div style={{ marginTop: '24px', textAlign: 'center' }}>
+                    <button 
+                      type="submit" 
+                      id="rfq-submit-btn"
+                      className="btn btn-primary" 
+                      disabled={rfqSubmitStatus === 'sending'}
+                      style={{ 
+                        width: '100%', 
+                        justifyContent: 'center', 
+                        background: activeTab === 'polythene' ? 'var(--secondary)' : activeTab === 'box' ? 'var(--accent)' : 'var(--primary)' 
+                      }}
+                    >
+                      {rfqSubmitStatus === 'sending' ? (
+                        <span className="spinner-container">
+                          <span className="spinner"></span>
+                          Processing Inquiry...
+                        </span>
+                      ) : 'Submit Request for Quotation'}
+                    </button>
+                  </div>
+                </form>
+              )}
+            </div>
+
+            {/* Production Estimator Column */}
+            <div 
+              className="corporate-card production-estimator-card" 
+              style={{ 
+                padding: '32px', 
+                borderTop: activeTab === 'polythene' ? '4px solid var(--secondary)' : activeTab === 'box' ? '4px solid var(--accent)' : '4px solid var(--primary)',
+                position: 'sticky',
+                top: '100px'
+              }} 
+              id="rfq-estimator-card"
+            >
+              <h3 style={{ fontSize: '1.4rem', marginBottom: '16px', color: 'var(--text-heading)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <Activity size={20} style={{ color: activeTab === 'polythene' ? 'var(--secondary)' : activeTab === 'box' ? 'var(--accent)' : 'var(--primary)' }} />
+                B2B Production Estimator
+              </h3>
+              <p style={{ fontSize: '0.88rem', color: 'var(--text-muted)', marginBottom: '24px', lineHeight: 1.5 }}>
+                Real-time capacity logistics and materials allocation model for Fatullah factory output.
+              </p>
+
+              {estimation ? (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                  {/* Timeline progress */}
+                  <div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', fontWeight: 600, marginBottom: '6px' }}>
+                      <span style={{ color: 'var(--text-heading)' }}>Est. Production Duration</span>
+                      <span style={{ color: activeTab === 'polythene' ? 'var(--secondary)' : activeTab === 'box' ? 'var(--accent)' : 'var(--primary)', fontWeight: 700 }}>
+                        {estimation.totalDays} Days
+                      </span>
+                    </div>
+                    <div style={{ width: '100%', height: '8px', background: 'var(--border-color)', borderRadius: '4px', overflow: 'hidden' }}>
+                      <div style={{
+                        width: `${Math.min(100, (estimation.productionDays / estimation.totalDays) * 100)}%`,
+                        height: '100%',
+                        background: activeTab === 'polythene' ? 'var(--secondary)' : activeTab === 'box' ? 'var(--accent)' : 'var(--primary)',
+                        borderRadius: '4px'
+                      }}></div>
+                    </div>
+                  </div>
+
+                  {/* Estimation metrics */}
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                    <div style={{ background: 'var(--bg-secondary)', padding: '12px', borderRadius: '6px', border: '1px solid var(--border-color)' }}>
+                      <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', fontWeight: 700, letterSpacing: '0.05em' }}>SETUP & WARMUP</div>
+                      <div style={{ fontSize: '1.1rem', fontWeight: 800, color: 'var(--text-heading)', marginTop: '4px' }}>{estimation.setupDays} Days</div>
+                    </div>
+                    <div style={{ background: 'var(--bg-secondary)', padding: '12px', borderRadius: '6px', border: '1px solid var(--border-color)' }}>
+                      <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', fontWeight: 700, letterSpacing: '0.05em' }}>RUN ESTIMATION</div>
+                      <div style={{ fontSize: '1.1rem', fontWeight: 800, color: 'var(--text-heading)', marginTop: '4px' }}>{estimation.productionDays} {estimation.productionDays === 1 ? 'Day' : 'Days'}</div>
+                    </div>
+                  </div>
+
+                  <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '16px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.88rem' }}>
+                      <span style={{ color: 'var(--text-muted)' }}>{estimation.rawMaterialLabel}</span>
+                      <span style={{ fontWeight: 600, color: 'var(--text-heading)' }}>{estimation.rawMaterialAmount}</span>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.88rem' }}>
+                      <span style={{ color: 'var(--text-muted)' }}>QC Audit Standard</span>
+                      <span style={{ fontWeight: 600, color: 'var(--secondary)' }}>AQL 1.5 Compliance</span>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.88rem' }}>
+                      <span style={{ color: 'var(--text-muted)' }}>FOB Port Loading</span>
+                      <span style={{ fontWeight: 600, color: 'var(--text-heading)' }}>{estimation.shippingDateString}</span>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.88rem', alignItems: 'center' }}>
+                      <span style={{ color: 'var(--text-muted)' }}>Logistics Terms</span>
+                      <span className="badge" style={{
+                        background: 'var(--primary-light)',
+                        color: 'var(--primary-dark)',
+                        fontSize: '0.75rem',
+                        fontWeight: 700
+                      }}>
+                        {estimation.portStatus}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div style={{ background: 'rgba(16, 126, 182, 0.04)', border: '1px solid var(--primary-light)', padding: '12px', borderRadius: '6px', display: 'flex', gap: '10px', alignItems: 'start' }} className="estimator-note-box">
+                    <Truck size={18} style={{ color: 'var(--primary)', flexShrink: 0, marginTop: '2px' }} />
+                    <p style={{ fontSize: '0.8rem', color: 'var(--text-main)', lineHeight: 1.4 }}>
+                      Calculated using daily capacities from Narayanganj floor logs. Custom printing slots or plates may add 2 days.
+                    </p>
+                  </div>
+                </div>
+              ) : (
+                <div style={{ textAlign: 'center', padding: '40px 20px', border: '2px dashed var(--border-color)', borderRadius: '8px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '12px' }} className="estimator-empty-state">
+                  <AlertCircle size={36} style={{ color: 'var(--text-light)' }} />
+                  <div style={{ fontSize: '0.88rem', color: 'var(--text-muted)', fontWeight: 500, lineHeight: 1.4 }}>
+                    Specify estimated quantity in the B2B form to load real-time manufacturing and shipping schedules.
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </section>
