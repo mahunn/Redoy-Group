@@ -388,39 +388,39 @@ export default function App() {
         >
           {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
-
-        {/* Mobile Drawer */}
-        <div className={`mobile-drawer ${mobileMenuOpen ? 'open' : ''}`} id="mobile-nav-drawer">
-          <ul className="mobile-nav-links">
-            <li><a href="#home" className="mobile-nav-link" id="mobile-link-home" onClick={() => setMobileMenuOpen(false)}>Home</a></li>
-            <li><a href="#garments" className="mobile-nav-link" id="mobile-link-garments" onClick={() => setMobileMenuOpen(false)}>Garments</a></li>
-            <li><a href="#polythene" className="mobile-nav-link" id="mobile-link-polythene" onClick={() => setMobileMenuOpen(false)}>Polythene Packaging</a></li>
-            <li><a href="#box" className="mobile-nav-link" id="mobile-link-box" onClick={() => setMobileMenuOpen(false)}>Box Packaging</a></li>
-            <li><a href="#heritage" className="mobile-nav-link" id="mobile-link-heritage" onClick={() => setMobileMenuOpen(false)}>Compliance & Heritage</a></li>
-            <li><a href="#gallery" className="mobile-nav-link" id="mobile-link-gallery" onClick={() => setMobileMenuOpen(false)}>Factory Tour</a></li>
-            <li style={{ marginTop: '20px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              <button
-                id="mobile-theme-toggle-btn"
-                className="btn btn-outline"
-                onClick={() => {
-                  setTheme(theme === 'light' ? 'dark' : 'light');
-                  setMobileMenuOpen(false);
-                }}
-                style={{ width: '100%', justifyContent: 'center' }}
-              >
-                {theme === 'light' ? (
-                  <span style={{ display: 'flex', alignItems: 'center' }}><Moon size={16} style={{ marginRight: '8px' }} /> Dark Theme</span>
-                ) : (
-                  <span style={{ display: 'flex', alignItems: 'center' }}><Sun size={16} style={{ marginRight: '8px' }} /> Light Theme</span>
-                )}
-              </button>
-              <a href="#rfq" className="btn btn-primary" id="mobile-btn-rfq" style={{ width: '100%', justifyContent: 'center' }} onClick={() => setMobileMenuOpen(false)}>
-                Request Quote
-              </a>
-            </li>
-          </ul>
-        </div>
       </header>
+
+      {/* Mobile Drawer (Moved outside of header to prevent positioning bugs) */}
+      <div className={`mobile-drawer ${mobileMenuOpen ? 'open' : ''}`} id="mobile-nav-drawer">
+        <ul className="mobile-nav-links">
+          <li><a href="#home" className="mobile-nav-link" id="mobile-link-home" onClick={() => setMobileMenuOpen(false)}>Home</a></li>
+          <li><a href="#garments" className="mobile-nav-link" id="mobile-link-garments" onClick={() => setMobileMenuOpen(false)}>Garments</a></li>
+          <li><a href="#polythene" className="mobile-nav-link" id="mobile-link-polythene" onClick={() => setMobileMenuOpen(false)}>Polythene Packaging</a></li>
+          <li><a href="#box" className="mobile-nav-link" id="mobile-link-box" onClick={() => setMobileMenuOpen(false)}>Box Packaging</a></li>
+          <li><a href="#heritage" className="mobile-nav-link" id="mobile-link-heritage" onClick={() => setMobileMenuOpen(false)}>Compliance & Heritage</a></li>
+          <li><a href="#gallery" className="mobile-nav-link" id="mobile-link-gallery" onClick={() => setMobileMenuOpen(false)}>Factory Tour</a></li>
+          <li style={{ marginTop: '20px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            <button
+              id="mobile-theme-toggle-btn"
+              className="btn btn-outline"
+              onClick={() => {
+                setTheme(theme === 'light' ? 'dark' : 'light');
+                setMobileMenuOpen(false);
+              }}
+              style={{ width: '100%', justifyContent: 'center' }}
+            >
+              {theme === 'light' ? (
+                <span style={{ display: 'flex', alignItems: 'center' }}><Moon size={16} style={{ marginRight: '8px' }} /> Dark Theme</span>
+              ) : (
+                <span style={{ display: 'flex', alignItems: 'center' }}><Sun size={16} style={{ marginRight: '8px' }} /> Light Theme</span>
+              )}
+            </button>
+            <a href="#rfq" className="btn btn-primary" id="mobile-btn-rfq" style={{ width: '100%', justifyContent: 'center' }} onClick={() => setMobileMenuOpen(false)}>
+              Request Quote
+            </a>
+          </li>
+        </ul>
+      </div>
 
       {/* Hero Section */}
       <section id="home" className="section bg-light-sec" style={{ paddingTop: '160px', minHeight: 'auto', paddingBottom: '80px' }}>
